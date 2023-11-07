@@ -26,7 +26,10 @@
 .input:hover {
   box-shadow: 3px 4px 15px 4px rgba(0, 0, 0, 0.75);
 }
-
+.input:focus {
+  outline: none;
+  box-shadow: 3px 4px 15px 4px rgba(0, 0, 0, 0.75);
+}
 .button {
   position: absolute;
   /* top: 20px;
