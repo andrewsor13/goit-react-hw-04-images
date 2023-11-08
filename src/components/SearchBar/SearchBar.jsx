@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './SearchBar.module.css';
 import Button from 'components/Button/Button';
 import { SlMagnifier } from 'react-icons/sl';
+import PropTypes from 'prop-types';
 
 export default function SearchBar({ onSearch }) {
   const [inputValue, setInputValue] = useState('');
@@ -45,3 +46,7 @@ export default function SearchBar({ onSearch }) {
     </header>
   );
 }
+
+SearchBar.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};
