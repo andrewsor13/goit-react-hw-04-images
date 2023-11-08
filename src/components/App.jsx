@@ -27,8 +27,14 @@ export const App = () => {
       await setCounter(12);
       showLoader();
       const responseData = await resourceApi(value, 12);
-      setData(responseData);
-      setValue(value);
+      if (responseData.totalHits === 0) {
+        console.log('Nu au fost găsite rezultate.');
+        setData(responseData);
+        setValue(value);
+      } else {
+        setData(responseData);
+        setValue(value);
+      }
     } catch (error) {
       console.log('A aparut o eroare la cautare: ', error);
     }
