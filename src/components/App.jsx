@@ -23,22 +23,30 @@ export const App = () => {
   };
 
   const handleSearch = async value => {
-    await setCounter(12);
-    showLoader();
-    const responseData = await resourceApi(value, 12);
-    setData(responseData);
-    setValue(value);
+    try {
+      await setCounter(12);
+      showLoader();
+      const responseData = await resourceApi(value, 12);
+      setData(responseData);
+      setValue(value);
+    } catch (error) {
+      console.log('A aparut o eroare la cautare: ', error);
+    }
     hideLoader();
   };
 
   const fetchData = useCallback(
     async value => {
-      setLoadingMore(true);
-      const responseData = await resourceApi(value, counter);
-      setData(prevData => ({
-        ...prevData,
-        hits: [...prevData.hits, ...responseData.hits],
-      }));
+      try {
+        setLoadingMore(true);
+        const responseData = await resourceApi(value, counter);
+        setData(prevData => ({
+          ...prevData,
+          hits: [...prevData.hits, ...responseData.hits],
+        }));
+      } catch (error) {
+        console.log('A aparut o eroare la cautare: ', error);
+      }
       setLoadingMore(false);
     },
     [counter]
