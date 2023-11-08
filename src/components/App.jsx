@@ -11,6 +11,7 @@ export const App = () => {
   const [data, setData] = useState({});
   const [value, setValue] = useState();
   const [counter, setCounter] = useState(12);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [loader, setLoader] = useState(false);
 
   const showLoader = () => {
@@ -32,10 +33,13 @@ export const App = () => {
 
   const fetchData = useCallback(
     async value => {
-      showLoader();
+      setLoadingMore(true);
       const responseData = await resourceApi(value, counter);
-      setData(responseData);
-      hideLoader();
+      setData(prevData => ({
+        ...prevData,
+        hits: [...prevData.hits, ...responseData.hits],
+      }));
+      setLoadingMore(false);
     },
     [counter]
   );
@@ -53,8 +57,9 @@ export const App = () => {
   return (
     <div className="container">
       <SearchBar onSearch={handleSearch} />
-      <ImageGallery searchValue={data.hits} />
-      {loader ? <Loader /> : null}
+      {loader ? <Loader /> : <ImageGallery searchValue={data.hits} />}
+
+      {loadingMore && <Loader />}
 
       {counter < data.totalHits ? (
         <div className={styles.button}>
